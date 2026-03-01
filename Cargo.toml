@@ -1,0 +1,23 @@
+[package]
+name = "fridge_ai_backend"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# Web framework
+axum = "0.7"
+tokio = { version = "1.0", features = ["full"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# AI & Math
+ort = { version = "2.0.0-rc.11", features = ["ndarray"] }
+tokenizers = "0.21" # HuggingFace Tokenizers
+ndarray = "0.15.6"
+
+# Database
+lancedb = "0.26"
+arrow-array = "57.3"
+arrow-schema = "57.3"
+futures = "0.3"
+anyhow = "1.0.102"
