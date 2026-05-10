@@ -269,19 +269,10 @@ fn embed_text(
         )?,
     ])?;
 
-    let (_shape, data) = outputs[0].try_extract_tensor::<f32>()?;
+    let (shape, data) = outputs[0].try_extract_tensor::<f32>()?;
 
-    // Mean pooling using attention mask to ignore padding
-    let mut embedding = vec![0.0f32; 384];
-    for token_idx in 0..seq_len {
-        let mask_val = mask_f32[token_idx];
-        for dim in 0..384 {
-            embedding[dim] += data[token_idx * 384 + dim] * mask_val;
-        }
-    }
-    for dim in 0..384 {
-        embedding[dim] /= real_token_count;
-    }
+    let hidden_dim = shape[2] as usize;
+    let mut embedding = data[0..hidden_dim].to_vec();
 
     // L2 normalize
     let norm: f32 = embedding.iter().map(|x| x * x).sum::<f32>().sqrt();
